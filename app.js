@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const statistic = require("./api/statistic");
 const path = require("path");
+const port = process.env.PORT || 3000;
 const app = express();
 
 app.use(express.static(path.join(__dirname, "client/dist")));
@@ -16,8 +17,8 @@ app.get(/(stats|user-stats)/, (req, res) => {
   res.redirect("/");
 });
 
-const server = app.listen(3000, () => {
-  console.log("App listening at http://localhost:3000");
+const server = app.listen(port, () => {
+  console.log(`App listening at port ${port}`);
 });
 
 const closeServer = () => {
