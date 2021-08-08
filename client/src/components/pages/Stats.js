@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import axios from "axios";
 
 function Stats() {
   const [statistic, setStatistic] = useState([]);
@@ -9,7 +9,10 @@ function Stats() {
   const history = useHistory();
 
   useEffect(async () => {
-    const result = await axios.post('statistic/users', { page: activePage, limit: 50 });
+    const result = await axios.post("statistic/users", {
+      page: activePage,
+      limit: 50,
+    });
     setStatistic(result.data);
   }, [activePage]);
 
@@ -25,7 +28,7 @@ function Stats() {
     const newPages = pages.map(() => {
       const result = newPage - temp;
       temp -= 1;
-      return result; 
+      return result;
     });
 
     setActivePage(newPage);
@@ -35,20 +38,21 @@ function Stats() {
   function handleRow(id, fullName) {
     history.push({
       pathname: `/user-stats/${id}`,
-      state: { fullName:  fullName},
-    }); 
+      state: { fullName: fullName },
+    });
   }
-
 
   return (
     <div className="container-fluid p-0">
-
       <div className="header text-start py-1">
         <p className="fs-3 text-center mb-0 text-md-start">AppCo</p>
       </div>
 
       <div className="wrapper mx-auto">
-        <p className="my-1 links"><Link to="/">Main page</Link> > <a className="active-link">User statistics</a></p>
+        <p className="my-1 links">
+          <Link to="/">Main page</Link> >{" "}
+          <a className="active-link">User statistics</a>
+        </p>
         <h1>Users statistics</h1>
         <div className="table-responsive rounded ">
           <table className="table table-striped text-center">
@@ -65,34 +69,51 @@ function Stats() {
               </tr>
             </thead>
             <tbody>
-            {
-              statistic.map(row =>
-                  <tr onClick={() => handleRow(row.user_id, `${row.first_name} ${row.last_name}`)}>
-                    <th scope="row">{row.user_id}</th>
-                    <th>{row.first_name}</th>
-                    <th>{row.last_name}</th>
-                    <th>{row.email}</th>
-                    <th>{row.gender}</th>
-                    <th>{row.ip_address}</th>
-                    <th>{row.total_clicks}</th>
-                    <th>{row.total_views}</th>
-                  </tr>
-              )
-            } </tbody>
+              {statistic.map((row) => (
+                <tr
+                  onClick={() =>
+                    handleRow(row.user_id, `${row.first_name} ${row.last_name}`)
+                  }
+                >
+                  <th scope="row">{row.user_id}</th>
+                  <th>{row.first_name}</th>
+                  <th>{row.last_name}</th>
+                  <th>{row.email}</th>
+                  <th>{row.gender}</th>
+                  <th>{row.ip_address}</th>
+                  <th>{row.total_clicks}</th>
+                  <th>{row.total_views}</th>
+                </tr>
+              ))}{" "}
+            </tbody>
           </table>
         </div>
 
         <nav aria-label="Page navigation text-center">
           <ul className="pagination d-flex justify-content-center">
-            <li onClick={() => handlePage(activePage - 1)} className="page-item">
+            <li
+              onClick={() => handlePage(activePage - 1)}
+              className="page-item"
+            >
               <a className="page-link" aria-label="Previous">
                 <span aria-hidden="true">&#10096;</span>
               </a>
             </li>
-            {
-              pages.map(page => <li onClick={() => handlePage(page)} className="page-item"><a className={`page-link ${activePage === page ? 'active-page' : ''}`}>{page}</a></li>)
-            }
-            <li onClick={() => handlePage(activePage + 1)} className="page-item">
+            {pages.map((page) => (
+              <li onClick={() => handlePage(page)} className="page-item">
+                <a
+                  className={`page-link ${
+                    activePage === page ? "active-page" : ""
+                  }`}
+                >
+                  {page}
+                </a>
+              </li>
+            ))}
+            <li
+              onClick={() => handlePage(activePage + 1)}
+              className="page-item"
+            >
               <a className="page-link" aria-label="Next">
                 <span aria-hidden="true">&#10095;</span>
               </a>
@@ -114,7 +135,6 @@ function Stats() {
           </div>
         </div>
       </div>
-
     </div>
   );
 }
